@@ -1,5 +1,10 @@
 #!/usr/bin/env bash
 
+if ! command -v stow &> /dev/null; then
+    echo "Stow is not installed, installing via brew..."
+    brew install stow
+fi
+
 for directory in ./*/; do
   package=$(basename "$directory")
   echo "Stowing $package"
