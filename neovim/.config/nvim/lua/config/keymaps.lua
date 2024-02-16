@@ -10,3 +10,7 @@ vim.keymap.set("n", "<leader>e", ":Ex<CR>")
 
 -- Wipe buffer.
 vim.keymap.set("n", "<leader>x", ":bw<CR>")
+
+-- Recenter screen after going up and down half a page
+vim.keymap.set("n", "<C-d>", "<C-d>zz")
+vim.keymap.set("n", "<C-u>", "<C-u>zz")
