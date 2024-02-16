@@ -28,16 +28,13 @@ return {
     vim.keymap.set("n", "<leader>?", builtin.oldfiles, {})
 
     -- Search.
-    vim.keymap.set("n", "<C-p>", builtin.git_files, {})
-    vim.keymap.set("n", "<leader>sw", builtin.grep_string, {})
-    vim.keymap.set("n", "<leader>ff", builtin.find_files, {})
-    vim.keymap.set("n", "<leader>lf", builtin.live_grep, {})
-    vim.keymap.set("n", "<leader>sw", builtin.grep_string, {})
-    vim.keymap.set("v", "<leader>sW", builtin.grep_string, {})
+    vim.keymap.set("n", "<C-p>", builtin.git_files, {})       -- Only Git files
+    vim.keymap.set("n", "<leader>fs", builtin.live_grep, {})
+    vim.keymap.set("n", "<leader>ff", builtin.find_files, {}) -- All files
 
-    vim.keymap.set("n", "<leader>sh", builtin.help_tags, {})
-    vim.keymap.set("n", "<leader>sk", builtin.keymaps, {})
-    vim.keymap.set("n", "<leader>sM", builtin.man_pages, {})
-    vim.keymap.set("n", "<leader>so", builtin.vim_options, {})
+    vim.keymap.set("n", "<leader>fh", builtin.help_tags, {})
+    vim.keymap.set("n", "<leader>fk", builtin.keymaps, {})
+    vim.keymap.set("n", "<leader>fM", builtin.man_pages, {})
+    vim.keymap.set("n", "<leader>fvo", builtin.vim_options, {})
   end,
 }

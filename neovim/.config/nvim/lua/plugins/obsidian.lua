@@ -4,6 +4,10 @@ return {
   dependencies = {
     "nvim-lua/plenary.nvim",
   },
+  keys = {
+    { "<leader>ot", "<cmd>ObsidianToday<cr>",  desc = "Open Daily Note" },
+    { "<leader>fo", "<cmd>ObsidianSearch<cr>", desc = "Search Notes" }
+  },
   opts = {
     workspaces = {
       {
