@@ -77,6 +77,7 @@ return {
           "tsserver",
           "lua_ls",
           "pylsp",
+          "tailwindcss",
         },
         handlers = {
           lsp_zero.default_setup,
