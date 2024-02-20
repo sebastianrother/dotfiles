@@ -65,6 +65,7 @@ return {
 
         vim.keymap.set("n", "gr", "<cmd>Telescope lsp_references<CR>", { buffer = bufnr })
         vim.keymap.set("n", "ds", "<cmd>Telescope lsp_document_symbols<CR>", { buffer = bufnr })
+        vim.keymap.set("n", "gh", "<cmd>lua vim.lsp.buf.hover()<CR>", { buffer = bufnr })
 
         -- Disable tsserver formatting as it conflicts with prettier.
         if client.name == "tsserver" then
