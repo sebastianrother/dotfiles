@@ -21,16 +21,27 @@ return {
       template = nil,
     },
 
+    wiki_link_func = function(opts)
+      -- only use the ide for the links, don't use the full path
+      return string.format("[[%s]]", opts.id)
+    end,
+    disable_frontmatter = true,
+    preferred_link_style = "wiki",
+    new_notes_location = "notes_subdir",
     completion = {
       nvim_cmp = true,
       min_chars = 2,
-      new_notes_location = "notes_subdir",
-      preferred_link_style = "wiki",
-      prepend_note_id = false,
-      prepend_note_path = false,
-      use_path_only = true,
     },
-
-    disable_frontmatter = true,
+    mappings = {
+      ["gf"] = {
+        action = function()
+          return require("obsidian").util.gf_passthrough()
+        end,
+        opts = { noremap = false, expr = true, buffer = true },
+      },
+    },
+    ui = {
+      enable = false,
+    }
   },
 }
