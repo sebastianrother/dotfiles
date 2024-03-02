@@ -12,6 +12,7 @@ return {
       }),
       formatting.prettier.with({
         prefer_local = "node_modules/.bin",
+        extra_filetypes = { "astro" },
       }),
       formatting.black.with({
         only_local = "venv/bin",
@@ -34,7 +35,7 @@ return {
           group = augroup,
           buffer = bufnr,
           callback = function()
-            vim.lsp.buf.format({ bufnr = bufnr })
+            vim.lsp.buf.format({ async = false })
           end,
         })
       end

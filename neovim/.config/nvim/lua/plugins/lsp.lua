@@ -79,6 +79,7 @@ return {
           "lua_ls",
           "pylsp",
           "tailwindcss",
+          "astro"
         },
         handlers = {
           lsp_zero.default_setup,
