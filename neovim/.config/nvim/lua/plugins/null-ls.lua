@@ -12,7 +12,7 @@ return {
       }),
       formatting.prettier.with({
         prefer_local = "node_modules/.bin",
-        extra_filetypes = { "astro" },
+        extra_filetypes = { "astro", "tsx" },
       }),
       formatting.black.with({
         only_local = "venv/bin",
