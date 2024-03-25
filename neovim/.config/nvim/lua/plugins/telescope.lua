@@ -23,9 +23,8 @@ return {
     local builtin = require("telescope.builtin")
 
     vim.keymap.set("n", "<leader>.", builtin.resume, {})
-    vim.keymap.set("n", "<leader>,", builtin.buffers, {})
-    vim.keymap.set("n", "<leader><Space>", builtin.builtin, {})
-    vim.keymap.set("n", "<leader>?", builtin.oldfiles, {})
+    vim.keymap.set("n", "<leader><Space>", builtin.buffers, {})
+    vim.keymap.set("n", "<leader>?", function() builtin.diagnostics({ bufnr = 0 }) end, {})
 
     -- Search.
     vim.keymap.set("n", "<C-p>", builtin.git_files, {})       -- Only Git files

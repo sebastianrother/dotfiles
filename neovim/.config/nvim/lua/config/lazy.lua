@@ -17,5 +17,8 @@ require("lazy").setup({
   },
   install = {
     colorscheme = { "tokyonight-moon" }
+  },
+  dev = {
+    path = '~/.config/nvim/dev'
   }
 })
