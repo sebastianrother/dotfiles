@@ -1,13 +1,19 @@
 return {
-  "jose-elias-alvarez/null-ls.nvim",
-  dependencies = { "nvim-lua/plenary.nvim" },
+  "nvimtools/none-ls.nvim",
+  dependencies = { "nvim-lua/plenary.nvim",
+    "nvimtools/none-ls-extras.nvim",
+  },
   config = function()
     local null_ls = require("null-ls")
 
     local diagnostics = null_ls.builtins.diagnostics
     local formatting = null_ls.builtins.formatting
     local sources = {
-      diagnostics.eslint.with({
+      -- https://stackoverflow.com/questions/78108133/issue-with-none-ls-configuration-error-with-eslint-d
+      require("none-ls.code_actions.eslint").with({
+        only_local = "node_modules/.bin",
+      }),
+      require("none-ls.diagnostics.eslint").with({
         only_local = "node_modules/.bin",
       }),
       formatting.prettier.with({
@@ -22,7 +28,7 @@ return {
       }),
       diagnostics.ansiblelint,
       formatting.stylua,
-      formatting.rustfmt,
+      require("none-ls.formatting.rustfmt"),
     }
 
     -- Format on save.
