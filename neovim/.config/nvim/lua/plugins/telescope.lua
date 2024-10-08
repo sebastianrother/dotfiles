@@ -13,9 +13,11 @@ return {
       pickers = {
         git_files = {
           show_untracked = true,
+          disable_devicons = true,
         },
         find_files = {
           hidden = true,
+          disable_devicons = true,
         },
       },
     })
