@@ -68,18 +68,19 @@ return {
         vim.keymap.set("n", "gh", "<cmd>lua vim.lsp.buf.hover()<CR>", { buffer = bufnr })
 
         -- Disable tsserver formatting as it conflicts with prettier.
-        if client.name == "tsserver" then
+        if client.name == "ts_ls" then
           client.server_capabilities.documentFormattingProvider = false
         end
       end)
 
       require("mason-lspconfig").setup({
         ensure_installed = {
-          "tsserver",
+          "ts_ls",
           "lua_ls",
           "pylsp",
           "tailwindcss",
-          "astro"
+          "astro",
+          "gopls",
         },
         handlers = {
           lsp_zero.default_setup,
