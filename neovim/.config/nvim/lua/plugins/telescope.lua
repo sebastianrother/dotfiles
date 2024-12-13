@@ -19,6 +19,10 @@ return {
           hidden = true,
           disable_devicons = true,
         },
+        live_grep = {
+          hidden = true,
+          disable_devicons = true,
+        },
       },
     })
 
