@@ -1,3 +1,66 @@
+local pickers = require("telescope.pickers")
+local finders = require("telescope.finders")
+local make_entry = require("telescope.make_entry")
+local conf = require("telescope.config").values
+
+---Flattens nested table
+---Replaces deprecated `vim.tbl_flatten`
+---@param t table
+---@return table Flattened table structure
+local function flatten(t)
+  return vim.iter(t):flatten():totable()
+end
+
+local FORMAT_ARGS = {
+  "--color=never",
+  "--no-heading",
+  "--with-filename",
+  "--line-number",
+  "--column",
+  "--smart-case"
+}
+
+local function multi_search(opts)
+  opts = opts or {}
+  opts.cwd = opts.cwd or vim.uv.cwd()
+
+
+  local finder = finders.new_async_job({
+    command_generator = function(prompt)
+      if not prompt or prompt == "" then
+        return nil
+      end
+
+      local pieces = vim.split(prompt, " -- ", { plain = true })
+      print(vim.inspect(pieces))
+      local cmd = { "rg" }
+
+      if pieces[1] then
+        table.insert(cmd, "-e")
+        table.insert(cmd, pieces[1])
+      end
+
+      if pieces[2] then
+        local additional_args = vim.split(pieces[2], " ", { plain = true })
+        table.insert(cmd, additional_args)
+      end
+
+      table.insert(cmd, FORMAT_ARGS)
+
+      return flatten(cmd)
+    end,
+    entry_maker = make_entry.gen_from_vimgrep(opts),
+    cwd = opts.cwd,
+  })
+
+  pickers.new(opts, {
+    prompt_title = "Multi Search",
+    finder = finder,
+    previewer = conf.grep_previewer(opts),
+    sorter = require('telescope.sorters').empty()
+  }):find()
+end
+
 return {
   "nvim-telescope/telescope.nvim",
   branch = "0.1.x",
@@ -34,7 +97,7 @@ return {
 
     -- Search.
     vim.keymap.set("n", "<C-p>", builtin.git_files, {})       -- Only Git files
-    vim.keymap.set("n", "<leader>fs", builtin.live_grep, {})
+    vim.keymap.set("n", "<leader>fs", multi_search, {})
     vim.keymap.set("n", "<leader>ff", builtin.find_files, {}) -- All files
 
     vim.keymap.set("n", "<leader>fh", builtin.help_tags, {})
