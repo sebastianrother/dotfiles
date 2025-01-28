@@ -71,6 +71,16 @@ return {
         if client.name == "ts_ls" then
           client.server_capabilities.documentFormattingProvider = false
         end
+
+
+        if client.supports_method("textDocument/formatting") then
+          vim.api.nvim_create_autocmd("BufWritePre", {
+            buffer = bufnr,
+            callback = function()
+              vim.lsp.buf.format({ async = false })
+            end,
+          })
+        end
       end)
 
       require("mason-lspconfig").setup({
@@ -90,24 +100,55 @@ return {
           end,
           pylsp = function()
             require("lspconfig").pylsp.setup({
-              settings = {
-                pylsp = {
-                  plugins = {
-                    pycodestyle = {
-                      enabled = false,
-                    },
-                    pyflakes = {
-                      enabled = false,
-                    },
-                    yapf = {
-                      enabled = false,
-                    },
-                    -- pylsp_mypy = {
-                    --   enabled = true,
-                    --   overrides = { "--python-executable", py_path, true },
-                    --   report_progress = true
-                    -- }
-                  },
+              cmd = (function()
+                local cwd = vim.fn.getcwd()
+                local cwd_path_parts = vim.split(cwd, "/", { trimempty = true })
+                local base_dir = cwd_path_parts[#cwd_path_parts]
+                local dockerfile = "~/.config/nvim/docker-lsp/" .. base_dir .. "/Dockerfile"
+
+                if vim.fn.filereadable(vim.fn.expand(dockerfile)) == 1 then
+                  return {
+                    "docker",
+                    "run",
+                    "-i",
+                    "--name",
+                    "lsp-" .. base_dir,
+                    "--rm",
+                    "--workdir=" .. cwd,
+                    "--volume=" .. cwd .. ":" .. cwd,
+                    "lsp/" .. base_dir,
+                  }
+                else
+                  return nil
+                end
+              end)(),
+              plugins = {
+                black = {
+                  enabled = true,
+                },
+                flake8 = {
+                  enabled = true,
+                },
+                mccabe = {
+                  enabled = false,
+                },
+                pycodestyle = {
+                  enabled = false,
+                },
+                pyflakes = {
+                  enabled = false,
+                },
+                pylsp_mypy = {
+                  enabled = false,
+                  dmypy = true,
+                  report_progress = true,
+                  live_mode = false,
+                },
+                pylint = {
+                  enabled = true,
+                },
+                rope_completion = {
+                  enabled = true,
                 },
               },
             })
