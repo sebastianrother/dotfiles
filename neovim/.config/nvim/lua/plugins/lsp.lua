@@ -54,21 +54,8 @@ vim.lsp.config("pylsp", {
       },
     }
   },
-  filetypes = { 'python' },
-  root_markers = {
-    'pyproject.toml',
-    'setup.py',
-    'setup.cfg',
-    'requirements.txt',
-    'Pipfile',
-    '.git',
-  },
 })
 
-vim.lsp.enable("pylsp")
-vim.lsp.enable("ts_ls")
-vim.lsp.enable("astro")
-vim.lsp.enable("tailwindcss")
 
 
 vim.api.nvim_create_autocmd("LspAttach", {
@@ -83,7 +70,6 @@ vim.api.nvim_create_autocmd("LspAttach", {
     map("gr", require("telescope.builtin").lsp_references, "[G]oto [R]eferences")
     map("gi", require("telescope.builtin").lsp_implementations, "[G]oto [I]mplementation")
     map("<leader>D", vim.lsp.buf.type_definition, "Type [D]efinition")
-    map("gh", vim.lsp.buf.hover, "[H]over")
 
     map("<leader>ds", require("telescope.builtin").lsp_document_symbols, "[D]ocument [S]ymbols")
     map("<leader>ws", require("telescope.builtin").lsp_dynamic_workspace_symbols, "[W]orkspace [S]ymbols")
@@ -118,8 +104,15 @@ vim.api.nvim_create_autocmd("LspAttach", {
         callback = vim.lsp.buf.clear_references,
       })
     end
+
+    if client:supports_method('textDocument/completion') then
+      vim.lsp.completion.enable(true, client.id, event.buf, {autotrigger = true})
+    end
   end
 })
+
+-- Add noselect to completeopt to disable default selection of autocomplete overlay
+vim.cmd("set completeopt+=noselect")
 
 return {
   {
@@ -128,6 +121,15 @@ return {
     config = true,
   },
 
+  {
+    'neovim/nvim-lspconfig',
+    config = function()
+      vim.lsp.enable("pylsp")
+      vim.lsp.enable("ts_ls")
+      vim.lsp.enable("astro")
+      vim.lsp.enable("tailwindcss")
+    end
+  },
   -- Autocompletion.
   {
     "hrsh7th/nvim-cmp",
