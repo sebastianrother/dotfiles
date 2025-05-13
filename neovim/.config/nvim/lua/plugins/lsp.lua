@@ -128,6 +128,7 @@ return {
       vim.lsp.enable("ts_ls")
       vim.lsp.enable("astro")
       vim.lsp.enable("tailwindcss")
+      vim.lsp.enable("svelte")
     end
   },
   -- Autocompletion.
