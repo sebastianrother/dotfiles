@@ -74,6 +74,7 @@ vim.api.nvim_create_autocmd("LspAttach", {
     map("<leader>ds", require("telescope.builtin").lsp_document_symbols, "[D]ocument [S]ymbols")
     map("<leader>ws", require("telescope.builtin").lsp_dynamic_workspace_symbols, "[W]orkspace [S]ymbols")
     map("<leader>rr", vim.lsp.buf.rename, "Rename symbol")
+    map("<leader>ca", vim.lsp.buf.code_action, "[C]ode [A]ction")
 
     local client = vim.lsp.get_client_by_id(event.data.client_id)
 
@@ -121,23 +122,14 @@ return {
     config = true,
   },
 
-  {
-    'neovim/nvim-lspconfig',
-    config = function()
-      vim.lsp.enable("pylsp")
-      vim.lsp.enable("ts_ls")
-      vim.lsp.enable("astro")
-      vim.lsp.enable("tailwindcss")
-      vim.lsp.enable("svelte")
-    end
-  },
   -- Autocompletion.
   {
     "hrsh7th/nvim-cmp",
     event = "InsertEnter",
     dependencies = {
-      { "L3MON4D3/LuaSnip" },
-      { "hrsh7th/cmp-path" },
+      "hrsh7th/cmp-nvim-lsp",
+      "hrsh7th/cmp-buffer",
+      "hrsh7th/cmp-path",
     },
     config = function()
       local cmp = require("cmp")
@@ -153,8 +145,21 @@ return {
         sources = {
           { name = "nvim_lsp" },
           { name = "path" },
+          { name = "buffer" },
         },
       })
+    end,
+  },
+
+  {
+    'neovim/nvim-lspconfig',
+    config = function()
+      vim.lsp.enable("pylsp")
+      vim.lsp.enable("ts_ls")
+      vim.lsp.enable("astro")
+      vim.lsp.enable("tailwindcss")
+      vim.lsp.enable("clangd")
+      vim.lsp.enable("svelte")
     end,
   },
 }
