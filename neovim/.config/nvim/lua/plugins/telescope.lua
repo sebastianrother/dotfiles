@@ -87,6 +87,24 @@ return {
           disable_devicons = true,
         },
       },
+      extensions = {
+        aerial = {
+          -- Set the width of the first two columns (the second
+          -- is relevant only when show_columns is set to 'both')
+          col1_width = 4,
+          col2_width = 30,
+          -- How to format the symbols
+          format_symbol = function(symbol_path, filetype)
+            if filetype == "json" or filetype == "yaml" then
+              return table.concat(symbol_path, ".")
+            else
+              return symbol_path[#symbol_path]
+            end
+          end,
+          -- Available modes: symbols, lines, both
+          show_columns = "symbols",
+        },
+      },
     })
 
     local builtin = require("telescope.builtin")
@@ -98,6 +116,7 @@ return {
     vim.keymap.set("n", "<C-p>", builtin.git_files, {})       -- Only Git files
     vim.keymap.set("n", "<leader>fs", multi_search, {})
     vim.keymap.set("n", "<leader>ff", builtin.find_files, {}) -- All files
+    vim.keymap.set("n", "<leader>fa", ":Telescope aerial<CR>", {}) -- All files
 
     vim.keymap.set("n", "<leader>fh", builtin.help_tags, {})
     vim.keymap.set("n", "<leader>fk", builtin.keymaps, {})

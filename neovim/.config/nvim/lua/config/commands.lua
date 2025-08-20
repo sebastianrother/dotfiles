@@ -1,7 +1,13 @@
 vim.api.nvim_create_user_command("CopyPath", function()
   local path = vim.fn.expand("%")
   vim.fn.setreg("+", path)
-  vim.notify("Copied path to clipboard: " .. path)
+  vim.notify(path)
+end, {})
+
+vim.api.nvim_create_user_command("CopyPythonPath", function()
+  local module_path = vim.fn.expand("%:r:gs?/?.?")
+  vim.fn.setreg("+", module_path)
+  vim.notify(module_path)
 end, {})
 
 vim.api.nvim_create_user_command("Dockerlsp", function(opts)
