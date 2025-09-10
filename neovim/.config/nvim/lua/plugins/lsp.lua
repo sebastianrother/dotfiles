@@ -160,6 +160,7 @@ return {
       vim.lsp.enable("tailwindcss")
       vim.lsp.enable("clangd")
       vim.lsp.enable("svelte")
+      vim.lsp.enable("lua")
     end,
   },
 }
